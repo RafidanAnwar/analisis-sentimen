@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIAK Sentiment Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Add Tailwind CSS -->
+    <style>
+      /* Custom Color Palette */
+      .bg-custom-light {
+        background-color: #fef3e2;
+      }
+      .bg-custom-yellow {
+        background-color: #f3c623;
+      }
+      .bg-custom-orange {
+        background-color: #ffb22c;
+      }
+      .bg-custom-dark {
+        background-color: #fa812f;
+      }
+      .text-custom-dark {
+        color: #fa812f;
+      }
+      .text-custom-yellow {
+        color: #f3c623;
+      }
+    </style>
+  </head>
+  <body class="bg-custom-light flex justify-center items-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+      <h1 class="text-3xl font-semibold text-custom-dark mb-6 text-center">
+        Welcome to the Feedback Analysis System
+      </h1>
+
+      <div class="space-y-4">
+        <a
+          href="/mahasiswa"
+          class="block py-3 text-center bg-custom-yellow text-white rounded-md hover:bg-custom-orange transition duration-300">
+          Mahasiswa Feedback
+        </a>
+        <a
+          href="/login"
+          class="block py-3 text-center bg-custom-dark text-white rounded-md hover:bg-custom-yellow transition duration-300">
+          Staff Login
+        </a>
+      </div>
+
+      <p class="text-sm text-center text-custom-dark mt-6">
+        For staff access, please log in first.
+      </p>
+    </div>
+  </body>
+</html>

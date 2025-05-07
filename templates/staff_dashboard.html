@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Staff Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Add Tailwind CSS -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Add Plotly.js -->
+    <style>
+      /* Custom Color Palette */
+      .bg-custom-light {
+        background-color: #fef3e2;
+      }
+      .bg-custom-yellow {
+        background-color: #f3c623;
+      }
+      .bg-custom-orange {
+        background-color: #ffb22c;
+      }
+      .bg-custom-dark {
+        background-color: #fa812f;
+      }
+      .text-custom-dark {
+        color: #fa812f;
+      }
+      .text-custom-yellow {
+        color: #f3c623;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-custom-light flex justify-center items-start min-h-screen py-6">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl">
+      <h1 class="text-3xl font-semibold text-custom-dark mb-6 text-center">
+        Staff Dashboard
+      </h1>
+      <h2 class="text-xl font-medium mb-4 text-center">Feedback Analysis</h2>
+
+      <!-- Table showing feedback and sentiment -->
+      <div class="overflow-x-auto mb-8">
+        <table class="min-w-full table-auto">
+          <thead>
+            <tr class="bg-custom-dark text-white">
+              <th class="px-4 py-2 text-left">Feedback</th>
+              <th class="px-4 py-2 text-left">Sentiment</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for feedback in feedback_data %}
+            <tr class="border-b hover:bg-gray-100">
+              <td class="px-4 py-2">{{ feedback.feedback }}</td>
+              <td class="px-4 py-2">
+                <span
+                  class="inline-block py-1 px-3 rounded-full {% if feedback.sentiment == 'Positive' %} bg-green-500 text-white {% elif feedback.sentiment == 'Negative' %} bg-red-500 text-white {% else %} bg-gray-500 text-white {% endif %}">
+                  {{ feedback.sentiment }}
+                </span>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Plotly Pie Chart to display sentiment distribution -->
+      <div id="sentimentChart" class="chart-container mb-8"></div>
+
+      <!-- Logout Button -->
+      <a
+        href="/logout"
+        class="w-full py-3 text-center text-white bg-custom-dark rounded-md hover:bg-custom-yellow transition duration-300">
+        Logout
+      </a>
+    </div>
+
+    <script>
+      // Prepare data for Plotly chart
+      var sentimentCounts = {
+        positive: 0,
+        negative: 0,
+        neutral: 0
+      };
+
+      {% for feedback in feedback_data %}
+        {% if feedback.sentiment == 'Positive' %}
+          sentimentCounts.positive += 1;
+        {% elif feedback.sentiment == 'Negative' %}
+          sentimentCounts.negative += 1;
+        {% else %}
+          sentimentCounts.neutral += 1;
+        {% endif %}
+      {% endfor %}
+
+      // Create data for the pie chart
+      var data = [{
+        values: [sentimentCounts.positive, sentimentCounts.negative, sentimentCounts.neutral],
+        labels: ['Positive', 'Negative', 'Neutral'],
+        type: 'pie',
+        marker: {
+          colors: ['#28a745', '#dc3545', '#6c757d']
+        },
+        textinfo: 'percent+label',
+        textposition: 'inside',
+        insidetextorientation: 'radial',
+      }];
+
+      // Layout configuration for the chart
+      var layout = {
+        title: {
+          text: 'Sentiment Distribution',
+          font: {
+            size: 24,
+            color: '#333'
+          }
+        },
+        showlegend: true,
+        hovermode: 'closest',
+        margin: { t: 40, b: 40, l: 40, r: 40 }
+      };
+
+      // Plot the chart
+      Plotly.newPlot('sentimentChart', data, layout);
+    </script>
+  </body>
+</html>
